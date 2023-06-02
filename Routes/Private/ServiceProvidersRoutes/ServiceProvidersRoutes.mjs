@@ -39,6 +39,17 @@ router.get("/:id", TokenValidator, async (req, res) => {
   }
 });
 
+// GET SERVICE PROVIDERS BY NAME (SEARCH)
+router.post("/filter-by-name", TokenValidator, async (req, res) => {
+  try {
+    const data = await Controllers.GetAllSPByName(req.body);
+    return data ? res.send(data) : res.sendStatus(404);
+  } catch (error) {
+    console.log(error);
+    return res.send(error);
+  }
+});
+
 // UPDATE SINGLE SERVICE PROVIDER
 router.put("/:id", TokenValidator, async (req, res) => {
   try {

@@ -58,6 +58,17 @@ const Controllers = {
     return response;
   },
 
+  // GET ALL SERVICE PROVIDERS WITH RESPECT TO NAME (SEARCH)
+  GetAllSPByName: async (x) => {
+    const response = await ServiceProviders.find({ isDeleted: false })
+      .then((AllSP) => {
+        const filteredArr = AllSP.filter(sp => sp.firstName.toLowerCase().includes(x.text.toLowerCase()));
+        return filteredArr.length ? { message: "Got all the filtered service providers.", messageType: "success", AllSP: filteredArr } : { message: "The service provider for this text doesn't exist.", messageType: "error" };
+      })
+      .catch(error => error);
+    return response;
+  },
+
   // UPDATE SINGLE SERVICE PROVIDER
   UpdateSingleSP: async (id, x) => {
     const response = await ServiceProviders.findByIdAndUpdate(id, {
@@ -97,7 +108,7 @@ const Controllers = {
   DeleteSingleSPSoft: async (id) => {
     const response = await ServiceProviders.findByIdAndUpdate(id, { isDeleted: true }, { new: true })
       .then((serviceProvider) => {
-        return serviceProvider ? { message: "Service Provider deleted successfully.", messageType: "success"} : { message: "The service provider you want to delete doesn't exist.", messageType: "error" };
+        return serviceProvider ? { message: "Service Provider deleted successfully.", messageType: "success" } : { message: "The service provider you want to delete doesn't exist.", messageType: "error" };
       })
       .catch(error => error);
     return response;
@@ -107,7 +118,7 @@ const Controllers = {
   DeleteSingleSPDeletePermanent: async (id) => {
     const response = await ServiceProviders.findByIdAndDelete(id)
       .then((serviceProvider) => {
-        return serviceProvider ? { message: "The service provider deleted permanently.", messageType: "success" } : { message: "The service provider you want to delete doesn't exist.", messageType: "error"};
+        return serviceProvider ? { message: "The service provider deleted permanently.", messageType: "success" } : { message: "The service provider you want to delete doesn't exist.", messageType: "error" };
       })
       .catch(error => error);
     return response;
