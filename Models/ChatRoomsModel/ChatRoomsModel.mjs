@@ -2,8 +2,8 @@
 import mongoose from "mongoose";
 
 const chatRoomsModel = mongoose.Schema({
-  user1: { type: mongoose.Types.ObjectId, ref: "Companies", required: true },
-  user2: { type: mongoose.Types.ObjectId, ref: "ServiceProviders", required: true },
+  company: { type: mongoose.Types.ObjectId, ref: "Companies", required: true },
+  sp: { type: mongoose.Types.ObjectId, ref: "ServiceProviders", required: true },
   isOkay: { type: Boolean, default: false, required: true },
   messages: [{ type: mongoose.Types.ObjectId, ref: "Messages" }],
   createdOn: { type: String, default: Date.now(), required: true },
@@ -14,7 +14,7 @@ const chatRoomsModel = mongoose.Schema({
 
 // WITH SERVICE PROVIDERS
 chatRoomsModel.virtual("user1Id", {
-  localField: "user1",
+  localField: "company",
   foreignField: "_id",
   ref: "ServiceProviders",
   justOne: true
@@ -22,7 +22,7 @@ chatRoomsModel.virtual("user1Id", {
 
 // WITH COMPANIES
 chatRoomsModel.virtual("user2Id", {
-  localField: "user2",
+  localField: "sp",
   foreignField: "_id",
   ref: "Companies",
   justOne: true

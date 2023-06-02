@@ -88,6 +88,7 @@ const Controllers = {
     return response;
   },
 
+  // UPDATE PROFILE PICTURE
   UpdateSingleProfile: async (id, filename) => {
     const response = await ServiceProviders.findById(id)
       .then(async (user) => {
